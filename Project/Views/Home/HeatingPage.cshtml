@@ -1,0 +1,49 @@
+﻿@model ServicesViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Image = "url('/images/heatingHeader.jpg')";
+    ViewBag.Title = "Heating and A/C Services";
+    ViewBag.PageName = "Heating & A/C";
+}
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row d-flex no-gutters">
+            <div class="col-md-6 text-center">
+                @{
+                    <h2>@Model.ServiceTypes.Where(p => p.ServiceTypeId == 3).FirstOrDefault().Description</h2>
+                }
+
+                <ul class="list-group">
+                    @{
+                        foreach (var item in Model.Services)
+                        {
+                            if (item.ServiceTypeId == 3)
+                            {
+                                <a asp-action="ServicePage" asp-route-id="@item.ServiceId"> <li class="list-group-item list-group-item-action"> @item.ServiceName </li></a>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                @{
+                    <h2>@Model.ServiceTypes.Where(p => p.ServiceTypeId == 4).FirstOrDefault().Description</h2>
+                }
+
+                <ul class="list-group">
+
+                    @{
+                        foreach (var item in Model.Services)
+                        {
+                            if (item.ServiceTypeId == 4)
+                            {
+                                <a asp-action="ServicePage" asp-route-id="@item.ServiceId"><li class="list-group-item list-group-item-action">  @item.ServiceName </li></a>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

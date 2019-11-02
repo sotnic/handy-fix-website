@@ -1,0 +1,38 @@
+﻿@model ServicesViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Image = "url('/images/electricalHeader.jpg')";
+    ViewBag.Title = "Plumbing Services";
+    ViewBag.PageName = "Plumbing Services";
+
+}
+
+<section class="ftco-section bg-light">
+    <div class="container text-center">
+        @{
+            <h2>@Model.ServiceTypes.Where(p => p.ServiceTypeId == 1).FirstOrDefault().Description</h2>
+        }
+        <div class="row d-flex no-gutters">
+            <div class="col-md-6 text-center">
+                <ul class="list-group">
+                    @for (int i = 0; i < Model.Services.Where(p => p.ServiceTypeId == 1).Count(); i += 2)
+                    {
+                        <a asp-action="ServicePage" asp-route-id="@Model.Services.Where(p => p.ServiceTypeId == 1).ElementAt(i).ServiceId">
+                            <li class="list-group-item list-group-item-action">	@Model.Services.ElementAt(i).ServiceName</li>
+                        </a>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6 text-center">
+                <ul class="list-group">
+                    @for (int i = 1; i < Model.Services.Where(p => p.ServiceTypeId == 1).Count(); i += 2)
+                    {
+                        <a asp-action="ServicePage" asp-route-id="@Model.Services.Where(p => p.ServiceTypeId == 1).ElementAt(i).ServiceId">
+                            <li class="list-group-item list-group-item-action">	@Model.Services.ElementAt(i).ServiceName</li>
+                        </a>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

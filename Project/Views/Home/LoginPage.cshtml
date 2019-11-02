@@ -1,0 +1,87 @@
+﻿@model LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+    ViewBag.Image = "url('/images/registration.jpg')";
+    ViewBag.Title = "User Login";
+    ViewBag.PageName = "User Login";
+}
+<meta name="google-signin-client_id" content="555073913037-198rf5nhims0b5hbfdddifp2vcv6a9n2.apps.googleusercontent.com">
+
+<div class="row d-flex">
+    <div class="col-md-12 ftco-animate makereservation p-5 bg-light fadeInUp ftco-animated">
+        <form asp-action="LoginPage" asp-controller="Home" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="loggedInThroughGoogle" />
+            <input type="hidden" asp-for="loggedInThroughFacebook" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email">E-mail</label>
+                        <input asp-for="Email" type="text" class="form-control" placeholder="E-mail" data-val="true" data-val-required="The E-mail is required.">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Password">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" data-val="true" data-val-required="The E-mail is required.">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="col-md-12 mt-3 text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary py-3 px-5 text-center" id="submit">Log In</button>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="form-group text-center">
+                        <div class="g-signin2 text-center" data-onsuccess="onSignIn"></div>
+                        <a href="#" onclick="signOut()">Sign out from Google</a>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-3 text-center">
+                    <div class="form-group">
+                        <a class="py-3 px-5 text-center" asp-action="RegistrationPage">Do not have an account yet?</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<environment>
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            });
+            auth2.disconnect();
+
+            auth2.signOut();
+            auth2.disconnect();
+        }
+
+    function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+
+        console.log("ID: " + profile.getId());
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+
+        document.getElementById("loggedInThroughGoogle").value = true;
+        document.getElementById("User_Id").value = id_token;
+    }
+    </script>
+</environment>
